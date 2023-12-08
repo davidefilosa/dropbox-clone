@@ -17,6 +17,11 @@ import {
 } from "@/components/ui/table";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { useDeleteModal } from "@/hooks/use-delete-modal";
+import { PencilIcon, TrashIcon } from "lucide-react";
+import { FileType } from "@/typings";
+import { useRenameModal } from "@/hooks/use-rename-modal";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -32,6 +37,9 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  const { onOpen } = useDeleteModal();
+  const { onOpen: openRename } = useRenameModal();
 
   return (
     <div className="rounded-md border dark:border-slate-700">
@@ -68,12 +76,39 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
+                      {cell.column.id === "filename" ? (
+                        <p
+                          className="underline flex items-center text-blue-500 hover:cursor-pointer"
+                          onClick={() => {
+                            openRename(
+                              (row.original as FileType).id,
+                              (row.original as FileType).filename
+                            );
+                          }}
+                        >
+                          {(row.original as FileType).filename}{" "}
+                          <PencilIcon size={15} className="ml-2" />
+                        </p>
+                      ) : (
+                        flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )
                       )}
                     </TableCell>
                   ))}
+
+                  <TableCell key={(row.original as FileType).id}>
+                    <Button
+                      variant="outline"
+                      className="dark:border-slate-700"
+                      onClick={() => {
+                        onOpen((row.original as FileType).id);
+                      }}
+                    >
+                      <TrashIcon size={20} />
+                    </Button>
+                  </TableCell>
                 </motion.tr>
               </AnimatePresence>
             ))

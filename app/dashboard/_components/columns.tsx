@@ -1,11 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { useDeleteModal } from "@/hooks/use-delete-modal";
-import { useRenameModal } from "@/hooks/use-rename-modal";
 import { FileType } from "@/typings";
 import { ColumnDef } from "@tanstack/react-table";
-import { PencilIcon, TrashIcon } from "lucide-react";
 import prettyBytes from "pretty-bytes";
 import { FileIcon, defaultStyles } from "react-file-icon";
 
@@ -31,22 +27,6 @@ export const columns: ColumnDef<FileType>[] = [
   {
     accessorKey: "filename",
     header: "Filename",
-    cell: ({ renderValue, ...props }) => {
-      const { onOpen } = useRenameModal();
-      return (
-        <p
-          className="underline flex items-center text-blue-500 hover:cursor-pointer"
-          onClick={() => {
-            onOpen(props.row.original.id, renderValue() as string);
-          }}
-        >
-          {
-            //props.row.original.id
-          }
-          {renderValue() as string} <PencilIcon size={15} className="ml-2" />
-        </p>
-      );
-    },
   },
   {
     accessorKey: "timestamp",
@@ -83,24 +63,6 @@ export const columns: ColumnDef<FileType>[] = [
         >
           Download
         </a>
-      );
-    },
-  },
-  {
-    accessorKey: "id",
-    header: "",
-    cell: ({ renderValue, ...props }) => {
-      const { onOpen } = useDeleteModal();
-      return (
-        <Button
-          variant="outline"
-          className="dark:border-slate-700"
-          onClick={() => {
-            onOpen(renderValue() as string);
-          }}
-        >
-          <TrashIcon size={20} />
-        </Button>
       );
     },
   },
