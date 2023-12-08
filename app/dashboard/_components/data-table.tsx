@@ -65,52 +65,46 @@ export function DataTable<TData, TValue>({
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row, index) => (
-              <AnimatePresence mode="popLayout">
-                <motion.tr
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  initial={{ opacity: 0, y: 25 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 1, delay: 0.25 * index }}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {cell.column.id === "filename" ? (
-                        <p
-                          className="underline flex items-center text-blue-500 hover:cursor-pointer"
-                          onClick={() => {
-                            openRename(
-                              (row.original as FileType).id,
-                              (row.original as FileType).filename
-                            );
-                          }}
-                        >
-                          {(row.original as FileType).filename}{" "}
-                          <PencilIcon size={15} className="ml-2" />
-                        </p>
-                      ) : (
-                        flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )
-                      )}
-                    </TableCell>
-                  ))}
-
-                  <TableCell key={(row.original as FileType).id}>
-                    <Button
-                      variant="outline"
-                      className="dark:border-slate-700"
-                      onClick={() => {
-                        onOpen((row.original as FileType).id);
-                      }}
-                    >
-                      <TrashIcon size={20} />
-                    </Button>
+              <motion.tr
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+                initial={{ opacity: 0, y: 25 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.25 * index }}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {cell.column.id === "filename" ? (
+                      <p
+                        className="underline flex items-center text-blue-500 hover:cursor-pointer"
+                        onClick={() => {
+                          openRename(
+                            (row.original as FileType).id,
+                            (row.original as FileType).filename
+                          );
+                        }}
+                      >
+                        {(row.original as FileType).filename}{" "}
+                        <PencilIcon size={15} className="ml-2" />
+                      </p>
+                    ) : (
+                      flexRender(cell.column.columnDef.cell, cell.getContext())
+                    )}
                   </TableCell>
-                </motion.tr>
-              </AnimatePresence>
+                ))}
+
+                <TableCell key={(row.original as FileType).id}>
+                  <Button
+                    variant="outline"
+                    className="dark:border-slate-700"
+                    onClick={() => {
+                      onOpen((row.original as FileType).id);
+                    }}
+                  >
+                    <TrashIcon size={20} />
+                  </Button>
+                </TableCell>
+              </motion.tr>
             ))
           ) : (
             <TableRow>
