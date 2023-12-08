@@ -1,113 +1,127 @@
-import Image from 'next/image'
+"use client";
+
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+
+const variants = {
+  hidden: { opacity: 0, y: 25 },
+  enter: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 25 },
+};
+
+const variants_bg = {
+  hidden: { opacity: 0 },
+  enter: { opacity: 1 },
+  exit: { opacity: 0 },
+};
 
 export default function Home() {
+  const [clicked, setClicked] = useState(false);
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
+      <main>
+        <motion.div
+          key="bg"
+          className="flex flex-col md:flex-row items-center bg-[#1E1919] dark:bg-slate-800"
+          variants={variants_bg}
+          initial="hidden"
+          animate="enter"
+          exit="exit"
+          transition={{ duration: 0.5 }}
+        >
+          <div className="p-10 flex flex-col bg-[#282929] dark:bg-slate-800 text-white spacey-y-5">
+            <motion.h1
+              key="title"
+              className="text-5xl font-bold"
+              variants={variants}
+              initial="hidden"
+              animate="enter"
+              exit="exit"
+              transition={{ duration: 1 }}
+            >
+              Welcome to FileHive.
+              <br />
+              <br /> Storing everything you and your business needs. All in one
+              place.
+            </motion.h1>
+            <motion.p
+              className="pb-20"
+              variants={variants}
+              initial="hidden"
+              animate="enter"
+              exit="exit"
+              transition={{ duration: 1 }}
+              key="subtitle"
+            >
+              FileHive is a robust file management system designed for secure
+              storage and organization. It offers customizable features for
+              categorizing and managing files efficiently. With strict access
+              controls and cross-platform functionality, it ensures data remains
+              protected while allowing seamless access across devices.
+            </motion.p>
+            <motion.div
+              key="callToAction"
+              variants={variants}
+              initial="hidden"
+              animate="enter"
+              exit="exit"
+              transition={{ duration: 1, delay: 0.75 }}
+            >
+              <Link
+                href="/dashboard"
+                className="flex p-5 w-fit bg-[#0074d9] hover:bg-[#0074d9]/80 transition"
+              >
+                Try it for free! <ArrowRight className="ml-10 " />
+              </Link>
+            </motion.div>
+          </div>
+          <motion.div
+            key="video"
+            className="bg-[#1E1919] dark:bg-slate-800 h-full p-10"
+            variants={variants_bg}
+            initial="hidden"
+            animate="enter"
+            exit="exit"
+            transition={{ duration: 2, delay: 0.5 }}
           >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
+            <video autoPlay muted className="rounded-lg" loop>
+              <source src="/video-home.mp4" type="video/mp4" />
+              Your browser does not support video tag.
+            </video>
+          </motion.div>
+        </motion.div>
+        <motion.p
+          key="disclaimerTitle"
+          className="text-center font-bold text-xl pt-5"
+          variants={variants}
+          initial="hidden"
+          animate="enter"
+          exit="exit"
+          transition={{ duration: 1 }}
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
+          Disclaimer
+        </motion.p>
+        <motion.p
+          className="text-center font-light p-2"
+          variants={variants}
+          initial="hidden"
+          animate="enter"
+          exit="exit"
+          transition={{ duration: 1 }}
+          key="disclaimer"
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+          FileHive is a project developed solely for educational purposes and to
+          showcase coding skills. It is not associated with any real company or
+          commercial entity. Users are advised that any files uploaded or shared
+          on this platform are solely their responsibility. The creator of
+          FileHive holds no liability for the content, usage, or consequences
+          related to the files shared within this demonstration. Users are
+          encouraged to use this platform responsibly and understand that any
+          actions taken with their uploaded files are their own responsibility.
+        </motion.p>
+      </main>
+    </AnimatePresence>
+  );
 }
